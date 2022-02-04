@@ -1,7 +1,13 @@
 <template>
   <div class="app">
     <h1>Posts List:</h1>
-    <my-button @click="showDialog">Create Post</my-button>
+    <input type="text" v-model="modificatorValue" />
+    <div>
+      <my-button @click="showDialog">Create Post</my-button>
+    </div>
+    <div>
+      <my-button @click="fetchPosts">pull posts</my-button>
+    </div>
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost" />
     </my-dialog>
@@ -13,6 +19,7 @@
 <script>
 import PostForm from "@/components/form";
 import PostList from "@/components/post";
+import axios from "axios";
 
 export default {
   components: {
@@ -22,14 +29,9 @@ export default {
 
   data() {
     return {
-      posts: [
-        { id: 0, title: "vue is amazing!", body: "Text does not matter" },
-        { id: 1, title: "vue is vue!", body: "Text does not matter" },
-        { id: 2, title: "vue is nice!", body: "Text does not matter" },
-        { id: 3, title: "vue is intresting!", body: "Black life matter" },
-        { id: 4, title: "vue is gooood!", body: "Text does not matter" },
-      ],
+      posts: [],
       dialogVisible: false,
+      modificatorValue: "",
     };
   },
   methods: {
@@ -42,6 +44,18 @@ export default {
     },
     showDialog() {
       this.dialogVisible = true;
+    },
+    async fetchPosts() {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        );
+        this.posts = response.data;
+        console.log(response);
+      } catch (error) {
+        alert(error);
+        console.error(error);
+      }
     },
   },
 };
