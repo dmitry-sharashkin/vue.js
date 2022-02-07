@@ -1,12 +1,17 @@
 <template>
   <div class="post">
     <div>
+      <div><strong>id:</strong>{{ post.id }}</div>
       <div><strong>Название:</strong>{{ post.title }}</div>
       <div><strong>Описание:</strong>{{ post.body }}</div>
     </div>
     <div class="post__btns">
       <my-button @click="$emit('remove', post)">Delete</my-button>
-      <!-- <my-button style="background-color: grey">change</my-button> -->
+      <my-button
+        @click="$router.push(`/posts/${post.id}`)"
+        style="background-color: green"
+        >Open</my-button
+      >
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <form action="" @submit.prevent>
     <h3>add post</h3>
-    <my-input v-model="post.title" placeholder="title" />
+    <my-input v-focus v-model="post.title" placeholder="title" />
     <my-input v-model="post.body" placeholder="body" />
     <my-button @click="createPost" class="btn">add post</my-button>
   </form>
@@ -27,6 +27,14 @@ export default {
         title: "",
         body: "",
       };
+    },
+  },
+  watch: {
+    post: {
+      handler(newValue) {
+        console.log(newValue);
+      },
+      deep: true,
     },
   },
 };
